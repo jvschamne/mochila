@@ -1,4 +1,5 @@
 from random import choice, random
+from time import sleep
 
 target = '1001'
 genes = '01'
@@ -15,20 +16,40 @@ def funcaoFitness(populacao):
     """
     
     populacaoFitness = []
-    indexFitness = 0
+    vetorFitness = []
 
     #calcula o fitness de cada individuo
     for individuo in populacao:
         fitness = 0
-        for char in individuo:
-            print(char)
-            fitness += 1
+        for charIndividuo, charTarget in zip(individuo, target):
+            if charIndividuo != charTarget:
+               fitness += 1
 
-        populacaoFitness[indexFitness] = {'individuo': individuo, "fitness": fitness}
-        indexFitness += 1
+        aux = {'individuo': individuo, "fitness": fitness}
+        populacaoFitness.append(aux)
+        vetorFitness.append(fitness)
 
     #ordena os individuos
-    
+    vetorFitness.sort()
+    print(vetorFitness)
+
+    index = 0 
+    while(len(populacaoFitness) > 0):
+        for pop in populacaoFitness:
+            if vetorFitness[index] == pop["fitness"]:
+                populacao[index] = pop["individuo"]
+                populacaoFitness.remove(pop)
+                index +=1
+                break
+
+    """for i in vetorFitness:
+        for j in range(0, len(populacaoFitness)):
+            if i == populacaoFitness[j]["fitness"]:
+                populacao[i] = populacaoFitness[j]["individuo"]
+                populacaoFitness.remove(populacaoFitness[j])
+"""
+    print(populacao)
+    sleep(300)
 
     return populacao
 
@@ -57,7 +78,7 @@ def sexo(pai, mae):
     return filho
 
 while not encontrou:
-    print("GERECAO", generation)
+    print("GERACAO", generation)
     generation += 1
 
     populacao = funcaoFitness(populacao)
@@ -77,7 +98,6 @@ while not encontrou:
         pai = choice(populacao[:50])
         mae = choice(populacao[:50])
         filho = sexo(pai, mae)
-        #print(pai, "x", mae, "=", filho)
         novaGeracao.append(filho)
 
     populacao = novaGeracao
