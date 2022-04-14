@@ -42,14 +42,7 @@ def funcaoFitness(populacao):
                 index +=1
                 break
 
-    """for i in vetorFitness:
-        for j in range(0, len(populacaoFitness)):
-            if i == populacaoFitness[j]["fitness"]:
-                populacao[i] = populacaoFitness[j]["individuo"]
-                populacaoFitness.remove(populacaoFitness[j])
-"""
     print(populacao)
-    sleep(300)
 
     return populacao
 
